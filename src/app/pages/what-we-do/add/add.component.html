@@ -1,0 +1,117 @@
+<div class="bg-white shadow-2sm p-4 lg:p-6 xl:p-8 2xl:p-10 rounded-10 w-full">
+  <form [formGroup]="addWhatWeDoForm">
+    <div class="flex flex-wrap -m-2">
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl min-w-[144px] w-36" for="title"
+            [ngClass]="{ 'field-error' : formControls.title.touched && formControls.title.invalid }">
+            {{ 'whatWeDo.title' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="title"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.title.touched && formControls.title.invalid }"
+            placeholder="{{ 'whatWeDo.titlePlaceholder' | translate }}" type="text" name="title" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl min-w-[144px] w-36" for="subTitle"
+            [ngClass]="{ 'field-error' : formControls.subTitle.touched && formControls.subTitle.invalid }">
+            {{ 'whatWeDo.subTitle' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="subTitle"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.subTitle.touched && formControls.subTitle.invalid }"
+            placeholder="{{ 'whatWeDo.subTitlePlaceholder' | translate }}" type="text" name="subTitle" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <label class="field-lbl min-w-[144px] w-36" for="logo"
+          [ngClass]="{ 'field-error' : formControls.logo.touched && formControls.logo.invalid }">
+          {{ 'whatWeDo.logo' | translate }}<span class="text-red">*</span>
+        </label>
+        <div class="flex-col rounded-md border p-4 relative"
+          [ngClass]="{ 'field-error' : formControls.logo.touched && formControls.logo.invalid }">
+          @if (formControls.logo.value) {
+          <app-vc-button [class]="{ 'text-red absolute right-4 top-4 z-10' : true }"
+            (buttonTap)="removeImage(fileInput)">
+            <app-svg-icon name="delete" />
+          </app-vc-button>
+          }
+          <label
+            class="relative w-full flex items-center justify-center bg-gray-100 py-6 px-4 rounded-lg cursor-pointer h-32">
+            @if (formControls.logo.value) {
+            <img class="max-h-full" [src]="formControls.logo.value.url" [alt]="formControls.title">
+            } @else {
+            <app-svg-icon name="upload" class="text-grey-light" />
+            <span class="ml-3 text-grey-light">{{ 'whatWeDo.uploadImage' | translate }}</span>
+            }
+            <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" [accept]="imageType"
+              (change)="onFileChange($event)" #fileInput />
+          </label>
+          <i class="text-grey-light text-xs">{{ 'common.fileHint' | translate: { extension, size, ratio } }}</i>
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div class="pb-4">
+          <label class="field-lbl min-w-[144px] w-36" for="index">
+            {{ 'common.displayOrder' | translate }}
+          </label>
+          <app-vc-input formControlName="index" [customClass]="{ 'form-field h-full' : true }" placeholder="0"
+            type="text" name="index" [applyAllowNumberOnly]="true" [regexType]="integer" />
+        </div>
+        <div class="pb-4">
+          <div class="flex items-center rounded-md px-4 border border-grey-50 h-10">
+            <label class="text-black-light font-semibold min-w-[100px]" for="isActive">
+              {{ 'common.status' | translate}}</label>
+            <mat-slide-toggle class="custom-slide-toggle" formControlName="isActive" id="isActive" />
+          </div>
+        </div>
+        <div class="pb-4">
+          <div class="flex items-center rounded-md px-4 border border-grey-50 h-10">
+            <label class="text-black-light font-semibold min-w-[100px] mr-4" for="status">
+              {{ 'common.highlighted' | translate }}
+            </label>
+            <mat-slide-toggle class="custom-slide-toggle" formControlName="isHighlighted" id="is-highlight" />
+          </div>
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <label class="field-lbl min-w-[144px] w-36" for="bulletPoint">
+          {{ 'whatWeDo.bulletPoint' | translate }} <span class="text-red">*</span>
+        </label>
+        <div formArrayName="bulletPoints">
+          @for (bulletPoint of formControls.bulletPoints?.controls; track bulletPoint; let i = $index;
+          let isLast = $last) {
+          <div class="flex w-full p-2">
+            <app-vc-input id="textContent{{i}}" [formControlName]="i"
+              [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.bulletPoints.controls[i].touched && formControls.bulletPoints.controls[i].invalid }"
+              type="text" name="title" />
+            <div class="sticky right-0 bg-white">
+              <div class="flex">
+                @if (isLast) {
+                <app-vc-button (buttonTap)="addBulletPoint()"
+                  [class]="{ 'ml-1 bg-primary text-white rounded-5 p-2': true }">
+                  <app-svg-icon name="add" />
+                </app-vc-button>
+                } @else {
+                <app-vc-button (buttonTap)="deleteBulletPoint(i)"
+                  [class]="{ 'ml-1 bg-red text-white rounded-5 p-2': true }">
+                  <app-svg-icon name="delete" />
+                </app-vc-button>
+                }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-start mt-6 2xl:mt-8">
+      <app-vc-button [class]="{ 'common-btn secondary-btn font-semibold rounded-5 min-w-[100px] mr-4' : true }"
+        (buttonTap)="navigateToList()" [isDisabled]="isSubmitted()">{{ 'common.cancel' | translate }}</app-vc-button>
+      <app-vc-button [class]="{ 'common-btn primary-btn font-semibold rounded-5 min-w-[100px]' : true }"
+        (buttonTap)="onSubmit()" [isDisabled]="isSubmitted()" [spin]="isSubmitted()">
+        {{ (_id() ? 'common.update' : 'common.add') | translate }}
+      </app-vc-button>
+    </div>
+  </form>
+</div>

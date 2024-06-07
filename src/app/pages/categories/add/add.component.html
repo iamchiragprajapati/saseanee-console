@@ -1,0 +1,47 @@
+<div class="bg-white shadow-2sm p-4 lg:p-6 xl:p-8 2xl:p-10 rounded-10 w-full max-w-5xl">
+  <form [formGroup]="addCategoryForm">
+    <div class="flex flex-wrap -mx-2">
+      <div class="w-full sm:w-6/12 p-2">
+        <div>
+          <label class="field-lbl" for="title"
+            [ngClass]="{ 'field-error' : formControls.title.touched && formControls.title.invalid }">
+            {{ 'category.title' | translate }}
+            <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="title"
+            [customClass]="{ 'form-field' : true, 'field-error' : formControls.title.touched && formControls.title.invalid }"
+            type="text" name="title" />
+        </div>
+      </div>
+      <div class="w-full sm:w-6/12 p-2">
+        <div>
+          <label class="field-lbl" for="index"
+            [ngClass]="{ 'field-error' : formControls.index.touched && formControls.index.invalid }">
+            {{ 'category.displayOrder' | translate }}
+            <span class="text-red">*</span>
+          </label>
+          <input #input formControlName="index" class="form-field"
+            [ngClass]="{'field-error':formControls.index.touched && formControls.index.invalid }" name="displayOrder"
+            type="number" />
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap -mx-2 mt-2">
+      <div class="p-2">
+        <div class="flex items-center rounded-md px-4 border border-grey-50 h-10">
+          <label class="text-grey-light font-semibold min-w-[100px]" for="status">{{ 'common.status' | translate
+            }}</label>
+          <mat-slide-toggle class="custom-slide-toggle" formControlName="isActive" id="status" />
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-start mt-6 2xl:mt-8">
+      <app-vc-button [class]="{ 'common-btn secondary-btn font-semibold rounded-5 min-w-[100px] mr-4' : true }"
+        (buttonTap)="navigateToList()" [isDisabled]="isSubmitted()">{{ 'common.cancel' | translate }}</app-vc-button>
+      <app-vc-button [class]="{ 'common-btn primary-btn font-semibold rounded-5 min-w-[100px]' : true }"
+        (buttonTap)="onSubmit()" [isDisabled]="isSubmitted()" [spin]="isSubmitted()">
+        {{ (_id() ? 'common.update' : 'common.add') | translate }}
+      </app-vc-button>
+    </div>
+  </form>
+</div>

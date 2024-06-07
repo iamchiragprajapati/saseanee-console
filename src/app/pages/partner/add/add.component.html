@@ -1,0 +1,179 @@
+<div class="bg-white shadow-2sm p-4 lg:p-6 xl:p-8 2xl:p-10 rounded-10 w-full">
+  <form [formGroup]="addPartnerForm">
+    <div class="flex flex-wrap -m-2">
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="organization"
+            [ngClass]="{ 'field-error' : formControls.organization.touched && formControls.organization.invalid }">
+            {{ 'partner.organization' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="organization"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.organization.touched && formControls.organization.invalid }"
+            type="text" name="organization" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="contactPerson"
+            [ngClass]="{ 'field-error' : formControls.contactPerson.touched && formControls.contactPerson.invalid }">
+            {{ 'partner.contactPerson' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="contactPerson"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.contactPerson.touched && formControls.contactPerson.invalid }"
+            type="text" name="contactPerson" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="email"
+            [ngClass]="{ 'field-error' : formControls.email.touched && formControls.email.invalid }">
+            {{ 'partner.email' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="email"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.email.touched && formControls.email.invalid }"
+            type="text" name="email" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="contactNumber"
+            [ngClass]="{ 'field-error' : formControls.contactNumber.touched && formControls.contactNumber.invalid }">
+            {{ 'partner.contactNumber' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-tel-input class="w-full"
+            [cssClass]="{ 'form-field h-full w-full' : true, 'field-error' : formControls.contactNumber.touched && formControls.contactNumber.invalid }"
+            defaultCountry="US" name="contactNumber" formControlName="contactNumber" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="website"
+            [ngClass]="{ 'field-error' : formControls.website.touched && formControls.website.invalid }">
+            {{ 'partner.website' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="website"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.website.touched && formControls.website.invalid }"
+            type="text" name="website" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="country"
+            [ngClass]="{ 'field-error' : formControls.country.touched && formControls.country.invalid }">
+            {{ 'partner.country' | translate }} <span class="text-red">*</span>
+          </label>
+          <app-vc-input formControlName="country"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.country.touched && formControls.country.invalid }"
+            type="text" name="country" />
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <label class="field-lbl" for="mode"
+          [ngClass]="{ 'field-error' : formControls.mode.touched && formControls.mode.invalid }">
+          {{ 'common.mode' | translate }} <span class="text-red">*</span>
+        </label>
+        <ng-select class="w-full font-semibold text-secondary custom-select rounded" [clearable]="true"
+          [ngClass]="{ 'field-error' : formControls.mode.touched && formControls.mode.invalid }" [searchable]="true"
+          formControlName="mode">
+          @for (option of modes; track option) {
+          <ng-option [value]="option.value">
+            {{ option.label }}
+          </ng-option>
+          }
+        </ng-select>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <label class="field-lbl min-w-[144px] w-36" for="index">
+          {{ 'common.displayOrder' | translate }}
+        </label>
+        <app-vc-input formControlName="index" [customClass]="{ 'form-field' : true }" placeholder="0" type="text"
+          name="index" [applyAllowNumberOnly]="true" [regexType]="integer" />
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="videoLink"
+            [ngClass]="{ 'field-error' : formControls.videoLink.touched && formControls.videoLink.invalid }">
+            {{ 'partner.videoLink' | translate }}
+          </label>
+          <app-vc-input formControlName="videoLink"
+            [customClass]="{ 'form-field h-full' : true, 'field-error' : formControls.videoLink.touched && formControls.videoLink.invalid }"
+            type="text" name="videoLink" />
+        </div>
+        <div class="pt-2">
+          <div class="flex items-center rounded-md px-4 border border-grey-50 h-10">
+            <label class="text-black-light font-semibold min-w-[100px]" for="isActive">
+              {{ 'common.status' | translate}}</label>
+            <mat-slide-toggle class="custom-slide-toggle" formControlName="isActive" id="isActive" />
+          </div>
+        </div>
+        <div class="pt-2">
+          <div class="flex items-center rounded-md px-4 border border-grey-50 h-10">
+            <label class="text-black-light font-semibold min-w-[100px] mr-4" for="status">
+              {{ 'common.highlighted' | translate }}
+            </label>
+            <mat-slide-toggle class="custom-slide-toggle" formControlName="isHighlighted" id="is-highlight" />
+          </div>
+        </div>
+
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <label class="field-lbl min-w-[144px] w-36" for="banner"
+          [ngClass]="{ 'field-error' : formControls.logo.touched && formControls.logo.invalid }">
+          {{ 'partner.logo' | translate }}
+        </label>
+        <div class="flex-col rounded-md border p-4 relative"
+          [ngClass]="{ 'field-error' : formControls.logo.touched && formControls.logo.invalid }">
+          @if (formControls.logo.value) {
+          <app-vc-button [class]="{ 'text-red absolute right-4 top-4 z-10' : true }"
+            (buttonTap)="removeImage(fileInput)">
+            <app-svg-icon name="delete" />
+          </app-vc-button>
+          }
+          <label
+            class="relative w-full flex items-center justify-center bg-gray-100 py-6 px-4 rounded-lg cursor-pointer h-28">
+            @if (formControls.logo.value) {
+            <img class="max-h-full" [src]="formControls.logo.value.url" [alt]="formControls.organization">
+            } @else {
+            <app-svg-icon name="upload" class="text-grey-light" />
+            <span class="ml-3 text-grey-light">{{ 'partner.uploadImage' | translate }}</span>
+            }
+            <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" [accept]="imageType"
+              (change)="onFileChange($event)" #fileInput />
+          </label>
+          <i class="text-grey-light text-xs">{{ 'common.fileHintWithoutRatio' | translate: { extension, size } }}</i>
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="remark"
+            [ngClass]="{ 'field-error' : formControls.remark.touched && formControls.remark.invalid }">
+            {{ 'partner.remark' | translate }}
+          </label>
+          <textarea rows="5" formControlName="remark" type="text" name="remark"
+            [ngClass]="{ 'form-field h-full w-full' : true, 'field-error' : formControls.remark.touched && formControls.remark.invalid }">
+                </textarea>
+        </div>
+      </div>
+      <div class="w-full sm:w-1/2 p-2">
+        <div>
+          <label class="field-lbl" for="description"
+            [ngClass]="{ 'field-error' : formControls.description.touched && formControls.description.invalid }">
+            {{ 'common.description' | translate }}
+          </label>
+          <textarea rows="5" formControlName="description" type="text" name="description"
+            [ngClass]="{ 'form-field h-full w-full' : true, 'field-error' : formControls.description.touched && formControls.description.invalid }">
+                </textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="flex justify-start mt-6 2xl:mt-8">
+      <app-vc-button [class]="{ 'common-btn secondary-btn font-semibold rounded-5 min-w-[100px] mr-4' : true }"
+        (buttonTap)="navigateToList()" [isDisabled]="isSubmitted()">{{ 'common.cancel' | translate }}</app-vc-button>
+      <app-vc-button [class]="{ 'common-btn primary-btn font-semibold rounded-5 min-w-[100px]' : true }"
+        (buttonTap)="onSubmit()" [isDisabled]="isSubmitted()" [spin]="isSubmitted()">
+        {{ (_id() ? 'common.update' : 'common.add') | translate }}
+      </app-vc-button>
+    </div>
+  </form>
+</div>

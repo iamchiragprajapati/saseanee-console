@@ -1,0 +1,94 @@
+<div class="bg-white shadow-2sm p-4 rounded-10 mb-2 sm:mb-3">
+  <div [ngClass]="{ 'hide-filter': items.length > 4 }">
+    <div class="flex justify-between">
+      <h3><b>{{ 'common.filters' | translate }}</b></h3>
+      <app-svg-icon class="bg-primary-light text-primary rounded cursor-pointer hidden [.hide-filter_&]:block"
+        [name]="openFilter() ? 'arrow_drop_up' : 'arrow_drop_down'" (click)="showFilter()" />
+    </div>
+    <div
+      class="transition-all [.hide-filter_&]:max-h-0 [.hide-filter_&]:[&:not(&.open)]:overflow-hidden [.hide-filter_&]:[&.open]:max-h-[1000px] mt-2 [.hide-filter_&]:mt-0 [.hide-filter_&]:[&.open]:mt-2"
+      [ngClass]="{ 'open': openFilter() }">
+      <div class="flex flex-wrap -m-1.5 sm:-m-2 justify-end">
+        @for (item of items(); track item) {
+        <div class="p-1.5 sm:p-2 w-full md:w-1/3">
+          @if (item.type === fieldType.Text) {
+          <app-vc-input placeholder="{{ item.label | translate }}"
+            [customClass]="{ 'w-full px-4 font-semibold text-secondary rounded-md border outline-0 min-h-[40px] border-grey-50' : true }"
+            type="text" [name]="item.key" [(ngModel)]="searchParams()[item.key]">
+          </app-vc-input>
+          }
+          @if (item.type === fieldType.List) {
+          <ng-select class="w-full font-semibold text-secondary custom-select rounded" [clearable]="true"
+            [searchable]="true" placeholder="{{ item.label | translate }}" [(ngModel)]="searchParams()[item.key]">
+            @for (option of item.list; track option) {
+            <ng-option [value]="option.value">
+              @if (translationExist('options.'+item.key+'.'+option.value)) {
+              {{ 'options.'+item.key+'.'+option.value | translate }}
+              } @else {
+              {{ option.label }}
+              }
+            </ng-option>
+            }
+          </ng-select>
+          }
+          @if (item.type === fieldType.Date) {
+          <div
+            class="flex justify-between items-center w-full px-4 font-semibold text-secondary rounded-md border outline-0 min-h-[40px] border-grey-50">
+            <input matInput readonly [matDatepicker]="datePicker" class="w-full outline-none"
+              [(ngModel)]="searchParams()[item.key]" (focus)="datePicker.open()"
+              placeholder="{{ item.label | translate }}">
+            <mat-datepicker-toggle class="btn-date-select" matIcon [for]="datePicker">
+              <mat-datepicker #datePicker>
+                <mat-datepicker-actions>
+                  <app-vc-button [class]="{ 'common-btn secondary-btn font-semibold font-base rounded-5' : true }"
+                    (buttonTap)="onClearDate(datePicker, item.key)">{{ 'common.clear' | translate }}</app-vc-button>
+                  <app-vc-button matDatepickerApply
+                    [class]="{ 'common-btn primary-btn font-semibold font-base rounded-5 ml-2' : true }">{{
+                    'common.apply'
+                    |
+                    translate }}</app-vc-button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-datepicker-toggle>
+          </div>
+          }
+          @if (item.type === fieldType.DateRange) {
+          <div
+            class="flex justify-between items-center w-full px-4 font-semibold text-secondary rounded-md border outline-0 min-h-[40px] border-grey-50">
+            <mat-date-range-input [rangePicker]="dateRangePicker" class="w-full outline-none" [formGroup]="dateRange"
+              [max]="today()">
+              <input class="w-full" matStartDate
+                placeholder="{{ 'common.from' | translate }} - {{ 'common.to' | translate }}" formControlName="start"
+                (focus)="dateRangePicker.open()" readonly>
+              <input class="w-full" matEndDate formControlName="end" (focus)="dateRangePicker.open()" readonly>
+            </mat-date-range-input>
+            <mat-datepicker-toggle class="btn-date-select" [for]="dateRangePicker">
+              <mat-date-range-picker (closed)="onApplyDateRange(item.key)" #dateRangePicker>
+                <mat-datepicker-actions>
+                  <app-vc-button [class]="{ 'common-btn secondary-btn font-semibold font-base rounded-5' : true }"
+                    (buttonTap)="onClearDateRange(dateRangePicker, item.key)">{{ 'common.clear' | translate
+                    }}</app-vc-button>
+                  <app-vc-button matDatepickerApply
+                    [class]="{ 'common-btn primary-btn font-semibold font-base rounded-5 ml-2' : true }">{{
+                    'common.apply'
+                    |
+                    translate }}</app-vc-button>
+                </mat-datepicker-actions>
+              </mat-date-range-picker>
+            </mat-datepicker-toggle>
+          </div>
+          }
+        </div>
+        }
+        <div class="p-1.5 sm:p-2 flex items-center justify-end grow text-right">
+          <app-vc-button [class]="{ 'common-btn secondary-btn font-semibold font-base rounded-5 mr-4' : true }"
+            (buttonTap)="onClear()">{{ 'common.clear' |
+            translate }}</app-vc-button>
+          <app-vc-button [class]="{ 'common-btn primary-btn font-semibold font-base rounded-5' : true }"
+            (buttonTap)="onSearch()">{{ 'common.search' |
+            translate }}</app-vc-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
